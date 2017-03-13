@@ -10,13 +10,54 @@
   <title>RPS Game</title>
 </head>
 <body>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12" id="spacer">
 
+    </div>
+  </div>
+  <div class="row players-container">
+    <div class="col-md-6">
+
+      <div class="panel panel-default">
+        <div class="panel-body" id="player-panel-one">
+
+          <form class="navbar-form navbar-left">
+            <div class="form-group">
+              <input id="player-one-input" type="text" class="form-control" placeholder="Enter Name">
+            </div>
+            <button id="player-one-submit" type="submit" class="btn btn-default">Start Player 1</button>
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-6">
+
+      <div class="panel panel-default">
+        <div class="panel-body text-center" id="player-panel-two">
+
+          <form class="navbar-form navbar-left">
+            <div class="form-group">
+              <input id="player-two-input" type="text" class="form-control" placeholder="Enter Name">
+            </div>
+            <button id="player-two-submit" type="submit" class="btn btn-default">Start Player 2</button>
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
 
 
 <script
   src="https://code.jquery.com/jquery-3.1.1.min.js"
   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
   crossorigin="anonymous"></script>
+<script src="https://www.gstatic.com/firebasejs/3.7.1/firebase.js"></script>
 <script type="text/javascript" src="assets/javascript/game.js"></script>
 </body>
 </html>
