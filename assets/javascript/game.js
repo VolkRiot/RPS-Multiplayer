@@ -1,34 +1,14 @@
 
-var config = {
-  apiKey: "AIzaSyBJPUuzs3i0P6VBBcmj2jBvw0myEJteZ_A",
-  authDomain: "rps-multiplayer-62d32.firebaseapp.com",
-  databaseURL: "https://rps-multiplayer-62d32.firebaseio.com",
-  storageBucket: "rps-multiplayer-62d32.appspot.com",
-  messagingSenderId: "761627428999"
-};
-
-firebase.initializeApp(config);
-
 function RPSgame() {
 
-  this.rpsData = firebase.database();
-  this.numPlayers = 0;
+  this.initFirebase();
 
-  this.playersRef = this.rpsData.ref('players');
-  this.player1Ref = this.rpsData.ref('players/player1');
-  this.player2Ref = this.rpsData.ref('players/player2');
-
-  this.numConnectedRef = this.rpsData.ref('connections');
-
-  this.connectedRef = this.rpsData.ref(".info/connected");
-
-  //this.auth = firebase.auth();
-  //this.storage = firebase.storage();
 
   this.player1 = {
     name: '',
     active: false
   };
+
   this.player2 = {
     name: '',
     active: false
@@ -36,35 +16,22 @@ function RPSgame() {
 
 }
 
+RPSgame.prototype.initFirebase = function () {
+
+  this.rpsData = firebase.database();
+
+  this.playersRef = this.rpsData.ref('players');
+  this.player1Ref = this.rpsData.ref('players/player1');
+  this.player2Ref = this.rpsData.ref('players/player2');
+
+  //this.connectedRef = this.rpsData.ref(".info/connected");
+
+};
+
 
 $(document).ready(function () {
 
   var RPS = new RPSgame();
-
-  RPS.connectedRef.on('value', function (status) {
-
-    if(status.val() === true){
-
-      RPS.numPlayers++;
-
-      if(RPS.numConnectedRef.child('value') === null){
-        RPS.numConnectedRef.set({
-          numConnected: RPS.numPlayers
-        })
-      }else{
-        RPS.numConnectedRef.update({
-          numConnected: RPS.numPlayers
-        })
-      }
-
-
-    }else{
-
-      RPS.numPlayers--;
-    }
-
-  });
-
 
   RPS.playersRef.child("players").on('value', function (snapshot) {
 
@@ -91,15 +58,21 @@ $(document).ready(function () {
 
   RPS.player1Ref.on('child_added', function (player) {
 
-    if(player.val() !== null){
-      console.log("Player one is named" + player.val().name);
+      var playerObj = player.val();
+
       $("#player-panel-one").empty();
-    }
+      $("#player-panel-one").append($('<p class="h4">').text("Welcome " + player.val().name))
+
 
 
   });
 
   RPS.player1Ref.onDisconnect().remove();
+
+  RPS.player1Ref.on('child_removed', function () {
+    $("#player-panel-one").empty().text('Player 1 just left...');
+  });
+
 
 
   // Same with player two
@@ -121,9 +94,12 @@ $(document).ready(function () {
 
   RPS.player2Ref.on('child_added', function (player) {
 
-    if(player.val() !== null){
-      $("#player-panel-two").empty();
-    }
+
+    var playerObj = player.val();
+
+    $("#player-panel-two").empty();
+    $("#player-panel-two").append($('<p class="h4">').text("Welcome " + player.val().name))
+
 
   });
 
