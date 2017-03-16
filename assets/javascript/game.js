@@ -67,9 +67,10 @@ RPSgame.prototype.determineWinner = function () {
 
 };
 
-var RPS = new RPSgame();
 
 $(document).ready(function () {
+
+  var RPS = new RPSgame();
 
   $("#player-submit").on('click', function (e) {
 
