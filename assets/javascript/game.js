@@ -21,6 +21,7 @@ RPSgame.prototype.initFirebase = function () {
 
 RPSgame.prototype.createButtons = function () {
 
+  $(this.player.container).children('button').remove();
   $(this.player.container).append($('<button class="btn btn-primary move-buttons" id="rock">').text("Rock"));
   $(this.player.container).append($('<button class="btn btn-primary move-buttons" id="paper">').text("Paper"));
   $(this.player.container).append($('<button class="btn btn-primary move-buttons" id="scissors">').text("Scissors"))
