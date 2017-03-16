@@ -21,6 +21,7 @@ RPSgame.prototype.initFirebase = function () {
 
 RPSgame.prototype.createButtons = function () {
 
+  $(this.player.container).children('.player-move').remove();
   $(this.player.container).children('button').remove();
   $(this.player.container).append($('<button class="btn btn-primary move-buttons" id="rock">').text("Rock"));
   $(this.player.container).append($('<button class="btn btn-primary move-buttons" id="paper">').text("Paper"));
@@ -64,6 +65,10 @@ RPSgame.prototype.determineWinner = function () {
     $gameContainer.append($resultP.text( this.opponent.name + ' Won!'));
 
   }
+
+  $(this.opponent.container).children('.player-move').remove();
+  $(this.opponent.container).append($('<p class="h3 player-move">').text(this.opponent.move.charAt(0).toUpperCase() +
+      this.opponent.move.slice(1)));
 
 };
 
@@ -111,8 +116,14 @@ $(document).ready(function () {
 
           if(turn === 3){
             RPS.determineWinner();
-            RPS.currentTurn = 1;
-            RPS.rpsData.ref().update({turn : RPS.currentTurn});
+
+            function reset() {
+              $('.player-move').remove();
+              RPS.currentTurn = 1;
+              RPS.rpsData.ref().update({turn : RPS.currentTurn});
+            }
+
+            setTimeout(reset, 3000);
 
           }
 
@@ -130,11 +141,8 @@ $(document).ready(function () {
 
     var players = snapshot.val();
 
-    //TODO: Remove
-    debugObj = players;
-
     $(players.player.container).empty();
-    $(players.player.container).append($('<p class="h4">').text(players.player.name));
+    $(players.player.container).append($('<p class="h4" id="player-name">').text(players.player.name));
     $(players.player.container).show();
 
   });
@@ -154,6 +162,12 @@ $(document).ready(function () {
     RPS.rpsData.ref().update({turn : RPS.currentTurn});
 
     $('.move-buttons').hide();
+
+
+
+    $(RPS.player.container).children('.player-move').remove();
+    $(RPS.player.container).append($('<p class="h3 player-move">').text(RPS.player.move.charAt(0).toUpperCase() +
+        RPS.player.move.slice(1)));
 
   });
 
