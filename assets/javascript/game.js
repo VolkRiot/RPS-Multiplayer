@@ -125,6 +125,8 @@ $(document).ready(function () {
               $('#game-state').empty();
               RPS.currentTurn = 1;
               RPS.rpsData.ref().update({turn : RPS.currentTurn});
+              $( RPS.player.container + ' .win-loss').text('Wins: ' + RPS.player.wins + ' Losses: ' + RPS.player.losses);
+              $( RPS.opponent.container + ' .win-loss').text('Wins: ' + RPS.opponent.wins + ' Losses: ' + RPS.opponent.losses);
             }
 
             setTimeout(reset, 3000);
