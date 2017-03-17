@@ -21,11 +21,11 @@ RPSgame.prototype.initFirebase = function () {
 
 RPSgame.prototype.createButtons = function () {
 
-  $(this.player.container).children('.player-move').remove();
-  $(this.player.container).children('button').remove();
-  $(this.player.container).append($('<button class="btn btn-primary move-buttons" id="rock">').text("Rock"));
-  $(this.player.container).append($('<button class="btn btn-primary move-buttons" id="paper">').text("Paper"));
-  $(this.player.container).append($('<button class="btn btn-primary move-buttons" id="scissors">').text("Scissors"))
+  var $playerMoveCont = $(this.player.container + " .player-move");
+  $playerMoveCont.empty();
+  $playerMoveCont.append($('<button class="btn btn-primary move-buttons" id="rock">').text("Rock"));
+  $playerMoveCont.append($('<button class="btn btn-primary move-buttons" id="paper">').text("Paper"));
+  $playerMoveCont.append($('<button class="btn btn-primary move-buttons" id="scissors">').text("Scissors"))
 
 };
 
@@ -66,7 +66,7 @@ RPSgame.prototype.determineWinner = function () {
 
   }
 
-  $(this.opponent.container).children('.player-move').text(this.opponent.move.charAt(0).toUpperCase() +
+  $(this.opponent.container).find('.player-move').text(this.opponent.move.charAt(0).toUpperCase() +
       this.opponent.move.slice(1));
 
 };
@@ -117,7 +117,11 @@ $(document).ready(function () {
             RPS.determineWinner();
 
             function reset() {
-              $('.player-move').empty();
+
+              $(".player-move").filter(function() {
+                return($(this).find(".move-buttons").length == 0);
+              }).empty();
+
               $('#game-state').empty();
               RPS.currentTurn = 1;
               RPS.rpsData.ref().update({turn : RPS.currentTurn});
@@ -141,14 +145,12 @@ $(document).ready(function () {
 
     var players = snapshot.val();
 
-    $(players.player.container).children('.player-name').text(players.player.name);
+    $(players.player.container).find('.player-name').text(players.player.name);
     $(players.player.container).show();
 
   });
 
   $('.player-panel').on('click', '.move-buttons', function () {
-
-    $('.move-buttons').show();
 
     RPS.player.move = $(this).attr('id');
 
@@ -164,9 +166,9 @@ $(document).ready(function () {
 
 
 
-    $(RPS.player.container).children('.player-move').remove();
-    $(RPS.player.container).append($('<p class="h3 player-move">').text(RPS.player.move.charAt(0).toUpperCase() +
-        RPS.player.move.slice(1)));
+    //$(RPS.player.container).find('.player-move').remove();
+    $(RPS.player.container + " .player-move").text(RPS.player.move.charAt(0).toUpperCase() +
+        RPS.player.move.slice(1));
 
   });
 
