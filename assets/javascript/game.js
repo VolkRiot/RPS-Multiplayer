@@ -117,6 +117,7 @@ $(document).ready(function () {
             RPS.determineWinner();
 
             function reset() {
+              $('.player-move').empty();
               $('#game-state').empty();
               RPS.currentTurn = 1;
               RPS.rpsData.ref().update({turn : RPS.currentTurn});
