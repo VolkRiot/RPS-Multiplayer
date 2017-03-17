@@ -66,9 +66,8 @@ RPSgame.prototype.determineWinner = function () {
 
   }
 
-  $(this.opponent.container).children('.player-move').remove();
-  $(this.opponent.container).append($('<p class="h3 player-move">').text(this.opponent.move.charAt(0).toUpperCase() +
-      this.opponent.move.slice(1)));
+  $(this.opponent.container).children('.player-move').text(this.opponent.move.charAt(0).toUpperCase() +
+      this.opponent.move.slice(1));
 
 };
 
@@ -118,7 +117,7 @@ $(document).ready(function () {
             RPS.determineWinner();
 
             function reset() {
-              $('.player-move').remove();
+              $('#game-state').empty();
               RPS.currentTurn = 1;
               RPS.rpsData.ref().update({turn : RPS.currentTurn});
             }
@@ -141,8 +140,7 @@ $(document).ready(function () {
 
     var players = snapshot.val();
 
-    $(players.player.container).empty();
-    $(players.player.container).append($('<p class="h4" id="player-name">').text(players.player.name));
+    $(players.player.container).children('.player-name').text(players.player.name);
     $(players.player.container).show();
 
   });
