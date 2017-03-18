@@ -6,6 +6,11 @@
     display: none;
 }
 
-.btn{
+.move-buttons{
     margin: 10px;
 }
+.panel.panel-success {
+    margin-bottom: 0;
+}
+
+

@@ -9,6 +9,7 @@ function RPSgame() {
   this.opponent = {};
   this.playerContainers = ["#player-panel-one", "#player-panel-two"];
   this.currentTurn = 1;
+  this.messages = {};
 
 }
 
@@ -203,6 +204,31 @@ $(document).ready(function () {
       }
 
     }
+  });
+
+  $('#message-submit').on('click', function (e) {
+
+    e.preventDefault();
+
+    var message = $('#message-input').val().trim();
+
+    RPS.rpsData.ref('messages').push({
+      name : RPS.player.name,
+      body : message
+    });
+    $('#message-input').val('');
+
+  });
+
+  RPS.rpsData.ref('messages').on('child_added', function (snapshot) {
+
+    if(snapshot.val()){
+
+      var fullLine = snapshot.val().name + ": " + snapshot.val().body;
+
+      $('#chat-body').append($('<p class="h5">').text(fullLine));
+    }
+
   });
 
  }); // End of document.ready()
