@@ -212,6 +212,10 @@ $(document).ready(function () {
 
     var message = $('#message-input').val().trim();
 
+    if(!RPS.player.name){
+      RPS.player.name = "Anonymous";
+    }
+
     RPS.rpsData.ref('messages').push({
       name : RPS.player.name,
       body : message
