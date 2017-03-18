@@ -1,7 +1,3 @@
-
-// TODO(DEVELOPER): DELETE ON FINISH
-var debugObj = {};
-
 function RPSgame() {
 
   this.initFirebase();
@@ -35,25 +31,17 @@ RPSgame.prototype.determineWinner = function () {
   var $gameContainer = $('#game-state');
   var $resultP = $('<p class="h4">');
 
+  var winCond1 = this.player.move == "rock" && this.opponent.move == "scissors";
+  var winCond2 = this.player.move == "scissors" && this.opponent.move == "paper";
+  var winCond3 = this.player.move == "paper" && this.opponent.move == "rock";
+
   $gameContainer.empty();
 
   if(this.player.move == this.opponent.move){
 
     $gameContainer.append($resultP.text('You Tied'));
 
-  }else if(this.player.move == "rock" && this.opponent.move == "scissors"){
-    
-    this.player.wins++;
-    this.rpsData.ref(this.player.playerRef + "/player/").update({wins:this.player.wins});
-    $gameContainer.append($resultP.text( this.player.name + ' Won!'));
-
-  }else if(this.player.move == "scissors" && this.opponent.move == "paper"){
-
-    this.player.wins++;
-    this.rpsData.ref(this.player.playerRef + "/player/").update({wins:this.player.wins});
-    $gameContainer.append($resultP.text( this.player.name + ' Won!'));
-
-  }else if(this.player.move == "paper" && this.opponent.move == "rock"){
+  }else if(winCond1 || winCond2 || winCond3){
 
     this.player.wins++;
     this.rpsData.ref(this.player.playerRef + "/player/").update({wins:this.player.wins});
@@ -138,6 +126,7 @@ $(document).ready(function () {
 
         RPS.rpsData.ref('players').child(RPS.player.num).onDisconnect().remove();
         RPS.rpsData.ref('turn').onDisconnect().remove();
+        RPS.rpsData.ref('messages').onDisconnect().remove();
 
       });
     }
@@ -167,9 +156,6 @@ $(document).ready(function () {
 
     $('.move-buttons').hide();
 
-
-
-    //$(RPS.player.container).find('.player-move').remove();
     $(RPS.player.container + " .player-move").text(RPS.player.move.charAt(0).toUpperCase() +
         RPS.player.move.slice(1));
 
@@ -228,12 +214,29 @@ $(document).ready(function () {
 
     if(snapshot.val()){
 
+      var $chatBody = $('#chat-body');
       var fullLine = snapshot.val().name + ": " + snapshot.val().body;
+      
+      $chatBody[0].scrollTop = $chatBody[0].scrollHeight;
+      $chatBody.append($('<p class="h5">').text(fullLine));
+      $chatBody.animate({ scrollTop: $chatBody[0].scrollHeight }, "slow");
 
-      $('#chat-body').append($('<p class="h5">').text(fullLine));
     }
 
   });
+
+  RPS.participants.on('child_removed', function (snapshot) {
+
+    if(snapshot.val() !== null){
+
+      var numChildren = parseInt(snapshot.numChildren());
+
+      if(numChildren < 2){
+        $('#chat-body').append($('<p class="h5">').text('System Message: ' + RPS.opponent.name + ' disconnected.'));
+      }
+    }
+
+  })
 
  }); // End of document.ready()
 
