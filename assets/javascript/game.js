@@ -216,7 +216,7 @@ $(document).ready(function () {
 
       var $chatBody = $('#chat-body');
       var fullLine = snapshot.val().name + ": " + snapshot.val().body;
-      
+
       $chatBody[0].scrollTop = $chatBody[0].scrollHeight;
       $chatBody.append($('<p class="h5">').text(fullLine));
       $chatBody.animate({ scrollTop: $chatBody[0].scrollHeight }, "slow");
