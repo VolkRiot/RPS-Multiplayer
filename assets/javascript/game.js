@@ -26,6 +26,18 @@ RPSgame.prototype.createButtons = function () {
 
 };
 
+RPSgame.prototype.toggleActivePlayer = function () {
+
+  if(this.player.num == this.currentTurn){
+    $(this.player.container).parent().css('border-color','red');
+    $(this.opponent.container).parent().css('border-color','lightgray');
+  }else if(this.opponent.num == this.currentTurn){
+    $(this.opponent.container).parent().css('border-color','red');
+    $(this.player.container).parent().css('border-color','lightgray');
+  }
+
+};
+
 RPSgame.prototype.determineWinner = function () {
 
   var $gameContainer = $('#game-state');
@@ -100,6 +112,7 @@ $(document).ready(function () {
 
           if(turn && RPS.player.num == turn){
             RPS.createButtons();
+            RPS.toggleActivePlayer();
           }
 
           if(turn === 3){
@@ -118,7 +131,7 @@ $(document).ready(function () {
               $( RPS.opponent.container + ' .win-loss').text('Wins: ' + RPS.opponent.wins + ' Losses: ' + RPS.opponent.losses);
             }
 
-            setTimeout(reset, 3000);
+            setTimeout(reset, 4000);
 
           }
 
@@ -155,6 +168,7 @@ $(document).ready(function () {
     RPS.rpsData.ref().update({turn : RPS.currentTurn});
 
     $('.move-buttons').hide();
+    $(RPS.player.container).parent().css('border-color','lightgray');
 
     $(RPS.player.container + " .player-move").text(RPS.player.move.charAt(0).toUpperCase() +
         RPS.player.move.slice(1));
@@ -196,7 +210,8 @@ $(document).ready(function () {
 
     e.preventDefault();
 
-    var message = $('#message-input').val().trim();
+    var $messageInput = $('#message-input');
+    var message = $messageInput.val().trim();
 
     if(!RPS.player.name){
       RPS.player.name = "Anonymous";
@@ -206,7 +221,8 @@ $(document).ready(function () {
       name : RPS.player.name,
       body : message
     });
-    $('#message-input').val('');
+
+    $messageInput.val('');
 
   });
 
