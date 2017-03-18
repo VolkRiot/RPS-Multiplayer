@@ -1,20 +1,21 @@
-#player-panel-one{
-    display: none;
-}
-
-#player-panel-two{
-    display: none;
-}
-
 .move-buttons{
     margin: 10px;
 }
+
 .panel.panel-success {
     margin-bottom: 0;
 }
 
 #chat-body{
     height: 20%;
+}
+
+.player-panel{
+    min-height: 110px;
+}
+
+#spacer{
+    height: 10%;
 }
 
 
