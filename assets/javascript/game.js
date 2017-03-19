@@ -112,11 +112,11 @@ $(document).ready(function () {
 
           if(turn && RPS.player.num == turn){
             RPS.createButtons();
-            RPS.toggleActivePlayer();
           }
 
           if(turn === 3){
             RPS.determineWinner();
+            $('.player-panel').css('border-color', 'lightgray');
 
             function reset() {
 
@@ -179,6 +179,7 @@ $(document).ready(function () {
 
     if(snapshot.val()){
       RPS.currentTurn = snapshot.val();
+      RPS.toggleActivePlayer();
     }
 
   });

@@ -12,6 +12,7 @@
 
 .player-panel{
     min-height: 110px;
+    border-color: lightgray;
 }
 
 #spacer{
